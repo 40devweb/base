@@ -20,6 +20,13 @@ export class TicketService {
             );
     }
 
+    getTicket(id: number): Observable<Ticket> {
+        return this.http.get<Ticket>(this.apiUrl + '/tickets/'+id)
+            .pipe(
+                catchError(this.handleError<Ticket>('getTicket/'+id, undefined))
+            );
+    }
+
     private handleError<T>(operation = 'operation', result?: T) {
         return (error: any): Observable<T> => {
             console.error(error); // log to console instead
@@ -29,6 +36,10 @@ export class TicketService {
 
     createTicket(ticket: Ticket): Observable<Ticket> {
         return this.http.post<Ticket>(this.apiUrl+'/tickets', ticket, {headers:this.httpHeaders})
+    }
+
+    updateTicket(ticket: Ticket): Observable<Ticket> {
+        return this.http.put<Ticket>(this.apiUrl+'/tickets/'+ticket.id, ticket, {headers:this.httpHeaders})
     }
 
 }

@@ -1,6 +1,6 @@
 export class Ticket {
     id: number = 0;
-    creationDttm: string = '';
+    creationDttm: string;
     text: string = '';
 
     constructor(id: number, creationDttm: string, text: string) {

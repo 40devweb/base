@@ -12,8 +12,6 @@ export class TicketsComponent {
   constructor(private ticketService: TicketService) { }
 
   ngOnInit() {
-    console.log('SNI Llamando al servicio')
     this.ticketService.getTickets().subscribe(list => this.ticketList = list);
-    console.log('SNI Llamó al servicio')
   }
 }

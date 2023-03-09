@@ -7,6 +7,7 @@ import { TicketFormComponent } from './tickets/ticket-form.component'
 const routes: Routes = [
     { path:'tickets', component:TicketsComponent },
     { path:'app-ticket-form', component:TicketFormComponent }, 
+    { path:'app-ticket-form/:id', component:TicketFormComponent }, 
 ];
 
 @NgModule({
