@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Ticket } from './ticket';
 import { Observable, catchError, of } from 'rxjs';
+import { Router } from '@angular/router'
 
 @Injectable({
     providedIn: 'root'
@@ -11,7 +12,7 @@ export class TicketService {
     private apiUrl = 'http://localhost:8080/api';  // URL to web api
     private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient, private router: Router) { }
 
     getTickets(): Observable<Ticket[]> {
         return this.http.get<Ticket[]>(this.apiUrl + '/tickets')
@@ -29,7 +30,8 @@ export class TicketService {
 
     private handleError<T>(operation = 'operation', result?: T) {
         return (error: any): Observable<T> => {
-            console.error(error); // log to console instead
+            this.router.navigate(['tickets']);
+            console.error('handleError '+error.error.responseType+'-'+error.error.text); // log to console instead
             return of(result as T);
           };
     }

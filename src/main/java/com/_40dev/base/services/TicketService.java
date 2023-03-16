@@ -29,7 +29,7 @@ public class TicketService {
 
     @Transactional(readOnly = true)
     public Ticket getTicket(int id) {
-        return repository.findById(id).orElseThrow();
+        return repository.findById(id).orElse(null);
     }
 
     @Transactional(readOnly = true)

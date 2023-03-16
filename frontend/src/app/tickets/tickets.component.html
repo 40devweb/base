@@ -5,6 +5,7 @@
       <th scope="col">ID</th>
       <th scope="col">Create Date time</th>
       <th scope="col">Text</th>
+      <th scope="col">Actions</th>
     </tr>
   </thead>
   <tbody>
@@ -12,7 +13,9 @@
       <td>{{ t.id }}</td>
       <td>{{ t.creationDttm | date:'yyyy-MM-dd HH:mm' }}</td>
       <td>{{ t.text }}</td>
-      <td><button class="btn btn-rounded btn-primary" type="button" [routerLink]="['/app-ticket-form', t.id ]">Edit</button>
+      <td>
+        <button class="btn btn-rounded btn-primary" type="button" [routerLink]="['/app-ticket-form', t.id ]">Edit</button>
+        <button class="btn btn-rounded btn-primary" type="button" [routerLink]="['/app-ticket-form', t.id ]">Delete</button>
       </td>
     </tr>
   </tbody>
