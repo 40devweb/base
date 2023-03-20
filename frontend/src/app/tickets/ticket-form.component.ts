@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { formatDate } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Ticket } from './ticket';
 import { TicketService } from './ticket.service';
@@ -52,6 +53,10 @@ export class TicketFormComponent {
 
   isAdd(){
     return this.mode==Mode.Add;
+  }
+
+  fDate(dt: any): string {
+    return formatDate(dt, 'yyyy-MM-dd', 'en-US');
   }
 
   saveTicket(): void {

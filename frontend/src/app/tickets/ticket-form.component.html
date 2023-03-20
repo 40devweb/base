@@ -11,17 +11,10 @@
     <div class="row">
       <label for="inputCreationDttm" class="col-2">Creation date</label>
       <div class="col-2">
-        <input type="date" class="form-control" [(ngModel)]="ticket.creationDttm" name="inputCreationDttm">
+        <input type="date" class="form-control" value="{{ ticket.creationDttm | date:'yyyy-MM-dd' }}" (ngModelChange)="ticket.creationDttm = fDate($event)" name="inputCreationDttm">
       </div>
     </div>
-    <div class="row">
-      <label for="inputCreationDttm2" class="col-2">Creation date 2</label>
-      <div class="col-2">
-        <input type="text" class="form-control" value="{{ ticket.creationDttm | date:'yyyy-MM-dd HH:mm' }}"
-          name="inputCreationDttm2" readonly>
-      </div>
-    </div>
-
+    
     <div class="row">
       <label for="inputText" class="col-2">Ticket text</label>
       <div class="col-4">
