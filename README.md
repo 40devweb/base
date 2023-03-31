@@ -11,6 +11,9 @@ The architecture consists of an Angular front end with Bootstrap for UX and a Sp
 REST API backend without security enabled. The backend uses an In-Memory H2 database to demonstrate
 Spring Boot Data JPA usage.
 
+You can fork it and start exploring right away and modify the source code to support other
+databases and Spring projects.
+
 ## How the source code was generated
 
 Most of the source code for this base skeleton was generated from Spring Boot initializr for the backend
