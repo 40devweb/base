@@ -4,6 +4,7 @@
  */
 package com._40dev.base.controller;
 
+import com._40dev.base.dto.TicketDTO;
 import com._40dev.base.entity.Ticket;
 import com._40dev.base.services.TicketService;
 
@@ -11,7 +12,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,20 +31,28 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @CrossOrigin(origins={"http://localhost:4200"})
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1")
 public class TicketController {
-    @Autowired
-    private TicketService ticketService;
     
+    private static Logger log=Logger.getLogger(TicketController.class.getName());
+
+    private TicketService ticketService;
+
+    public TicketController(TicketService ticketService){
+        this.ticketService=ticketService;
+    }
+
     @GetMapping("/tickets/{id}")
     public ResponseEntity<?> getTicket(@PathVariable Integer id){
         Ticket ticket=null;
         ResponseEntity<?> response;
-        Logger log=Logger.getLogger(TicketController.class.getName());
+        
 
         try {
             ticket=ticketService.getTicket(id);
-            response=new ResponseEntity<Ticket>(ticket, HttpStatus.OK);
+            TicketDTO ticketDto=new TicketDTO(ticket.getId(), ticket.getCreationDttm(), ticket.getText());
+
+            response=new ResponseEntity<TicketDTO>(ticketDto, HttpStatus.OK);
         } catch (Exception e) {
             log.log(Level.SEVERE, e.toString());
             response=new ResponseEntity<RestErrorResponse>(RestErrorResponse.error("Internal error"), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -58,28 +66,35 @@ public class TicketController {
     }
     
     @GetMapping("/tickets")
-    public ResponseEntity<?> getAllTickets(){
-        List<Ticket> lTickets;
+    public ResponseEntity<?> getAllTicketsNew(){
+        List<TicketDTO> lTickets;
         ResponseEntity<?> response;
         try {
-            lTickets=ticketService.getAll();
-            response=new ResponseEntity<List<Ticket>>(lTickets, HttpStatus.OK);
+            lTickets=ticketService.getAll().stream().map(t -> new TicketDTO(t.getId(), t.getCreationDttm(), t.getText())).toList();
+            response=new ResponseEntity<List<TicketDTO>>(lTickets, HttpStatus.OK);
         } catch (Exception e) {
             response=new ResponseEntity<RestErrorResponse>(RestErrorResponse.error("Internal error: "+e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return response;
     }
     
-    @PostMapping("/tickets")
-    public ResponseEntity<?> createTicket(@RequestBody Ticket newTicket){
 
-        Ticket ticket=null;
+
+    @PostMapping("/tickets")
+    public ResponseEntity<?> createTicket(@RequestBody TicketDTO newTicket){
+
+        Ticket ticket=new Ticket();
+        ticket.setId(newTicket.id());
+        ticket.setCreationDttm(newTicket.creationDttm());
+        ticket.setText(newTicket.text());
+        
         ResponseEntity<?> response;
-        Logger log=Logger.getLogger(TicketController.class.getName());
+        
 
         try {
-            ticket=ticketService.saveTicket(newTicket);
-            response=new ResponseEntity<Ticket>(ticket, HttpStatus.CREATED);
+            ticket=ticketService.saveTicket(ticket);
+            TicketDTO createdTicket=new TicketDTO(ticket.getId(), ticket.getCreationDttm(), ticket.getText());
+            response=new ResponseEntity<TicketDTO>(createdTicket, HttpStatus.CREATED);
         } catch (Exception e) {
             log.log(Level.SEVERE, e.toString());
             response=new ResponseEntity<RestErrorResponse>(RestErrorResponse.error("Internal error"), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -89,8 +104,10 @@ public class TicketController {
     }
    
     @PutMapping("/tickets/{id}")
-    public ResponseEntity<?> updateTicket(@RequestBody Ticket newTicket, @PathVariable Integer id){
+    public ResponseEntity<?> updateTicket(@RequestBody TicketDTO newTicket, @PathVariable Integer id){
         Ticket currentTicket;
+        TicketDTO ticketDto;
+        
         ResponseEntity<?> response;
         Logger log=Logger.getLogger(TicketController.class.getName());
 
@@ -99,9 +116,10 @@ public class TicketController {
             if(currentTicket==null) {
                 response=new ResponseEntity<RestErrorResponse>(RestErrorResponse.error("Not found"), HttpStatus.NOT_FOUND);
             } else {
-                currentTicket.setText(newTicket.getText());
+                currentTicket.setText(newTicket.text());
                 currentTicket=ticketService.saveTicket(currentTicket);
-                response=new ResponseEntity<Ticket>(currentTicket, HttpStatus.CREATED);
+                ticketDto=new TicketDTO(currentTicket.getId(), currentTicket.getCreationDttm(), currentTicket.getText());
+                response=new ResponseEntity<TicketDTO>(ticketDto, HttpStatus.CREATED);
             }
         } catch (Exception e) {
             log.log(Level.SEVERE, e.toString());
@@ -115,8 +133,7 @@ public class TicketController {
     @DeleteMapping("/tickets/{id}")
     public ResponseEntity<?> deleteTicket(@PathVariable Integer id){
         ResponseEntity<?> response;
-        Logger log=Logger.getLogger(TicketController.class.getName());   
-
+        
         try {
             ticketService.deleteTicket(id);
             response=new ResponseEntity<RestErrorResponse>(RestErrorResponse.information("Deleted"), HttpStatus.NO_CONTENT);

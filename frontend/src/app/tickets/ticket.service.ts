@@ -9,7 +9,7 @@ import { Router } from '@angular/router'
 })
 export class TicketService {
 
-    private apiUrl = 'http://localhost:8080/api';  // URL to web api
+    private apiUrl = 'http://localhost:8080/api/v1';  // URL to web api
     private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
 
     constructor(private http: HttpClient, private router: Router) { }
