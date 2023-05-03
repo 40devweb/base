@@ -1,13 +1,6 @@
-/* 
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Other/SQLTemplate.sql to edit this template
- */
-/**
- * Author:  snishi
- * Created: 4/03/2023
- */
+-- liquibase formatted sql
 
--- Create base ticket data
+-- changeset liquibase:2
  
 INSERT INTO TICKETS (CREATION_DTTM, TEXT) VALUES (CURRENT_TIMESTAMP, 'TICKET A' );
 INSERT INTO TICKETS (CREATION_DTTM, TEXT) VALUES (CURRENT_TIMESTAMP, 'TICKET B' );

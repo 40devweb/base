@@ -1,0 +1,9 @@
+-- liquibase formatted sql
+
+-- changeset liquibase:1
+CREATE TABLE TICKETS (
+    ID INTEGER GENERATED ALWAYS AS IDENTITY,
+    CREATION_DTTM TIMESTAMP NOT NULL,
+    TEXT VARCHAR(100)
+);
+

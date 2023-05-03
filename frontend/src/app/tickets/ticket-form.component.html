@@ -1,26 +1,42 @@
 <form (ngSubmit)="saveTicket()" #ticketForm="ngForm">
 
   <div class="container">
+
     <div class="row">
+      <div class="form-group">
+      <label for="inputId" class="col-1" >otro ID</label>
+      <div class="col-3">
+        <input type="text" class="form-control col-1" [(ngModel)]="ticket.id" name="inputId" readonly>
+      </div>
+    </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group">
       <label for="inputId" class="col-2">Ticket ID</label>
       <div class="col-2">
         <input type="text" class="form-control" [(ngModel)]="ticket.id" name="inputId" readonly>
       </div>
+      </div>
     </div>
 
     <div class="row">
+      <div class="form-group">
       <label for="inputCreationDttm" class="col-2">Creation date</label>
       <div class="col-2">
         <input type="date" class="form-control" value="{{ ticket.creationDttm | date:'yyyy-MM-dd' }}" (ngModelChange)="ticket.creationDttm = fDate($event)" name="inputCreationDttm">
       </div>
+      </div>
     </div>
     
     <div class="row">
+      <div class="form-group">
       <label for="inputText" class="col-2">Ticket text</label>
       <div class="col-4">
         <input type="text" class="form-control" [(ngModel)]="ticket.text" name="inputText" #textField="ngModel"
           minlength="6" required>
       </div>
+    </div>
     </div>
 
     <!-- Custom validations on exported ngModel (textField) -->
