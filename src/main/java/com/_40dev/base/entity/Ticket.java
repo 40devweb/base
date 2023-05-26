@@ -15,7 +15,10 @@ import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import java.sql.Timestamp;
 import java.util.Date;
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  *
@@ -24,6 +27,8 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name="TICKETS")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Ticket {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
