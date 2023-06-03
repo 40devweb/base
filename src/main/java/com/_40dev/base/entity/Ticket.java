@@ -14,7 +14,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import java.sql.Timestamp;
-import java.util.Date;
+import java.time.Instant;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -43,7 +43,7 @@ public class Ticket {
     
     @PrePersist
     public void prePersist(){
-        this.creationDttm=new Timestamp(new Date().getTime());
+        this.creationDttm=Timestamp.from(Instant.now());
     }
     
 }
